@@ -6,8 +6,8 @@ class ScrambleTest
   end
 
   def self.scramble_word(word)
-    return word[0] + word[1..-2].reverse + word[-1] if word && word.length >= 4
+    return word if !word || word.length < 4
 
-    word
+    word[0] + word[1..-2].reverse + word[-1]
   end
 end
