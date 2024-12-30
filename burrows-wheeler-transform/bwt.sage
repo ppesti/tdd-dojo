@@ -34,7 +34,48 @@ class BwtNaive:
 
         return res
 
+
+# Optimized implementation
+class Bwt:
+    NULL_TERM = '$'
+
+    @staticmethod
+    def get_str_with_null_terminator(s):
+        return s + Bwt.NULL_TERM
+
+    @staticmethod
+    def get_unsorted_suffix_arr(s):
+        suffixes = []
+
+        for i in range(len(s)):
+            suffixes.append((i, s[i:]))
+        
+        return suffixes
+
+    @staticmethod
+    def get_suffix_arr(s):
+        suffixes = Bwt.get_unsorted_suffix_arr(s)
+        return sorted(suffixes, key=lambda x: x[1])
+
+    @staticmethod
+    def burrows_wheeler_transform(s):
+        null_terminated_str = Bwt.get_str_with_null_terminator(s)
+        bws = Bwt.get_suffix_arr(null_terminated_str)
+
+        res = []
+        for i, _ in bws:
+            res.append(null_terminated_str[-1] if i == 0 else null_terminated_str[i - 1])
+
+        return ''.join(res)
+
+
 # Demo
-string = "BANANA"
-bwt_result = BwtNaive.burrows_wheeler_transform(string)
-print(f"Burrows-Wheeler Transform of '{string}': {bwt_result}")
+inputs = ["BANANA", "islanders", "123"]
+for input in inputs:
+    print(f"Burrows-Wheeler Transform of '{input}'")
+
+    bwt_naive = BwtNaive.burrows_wheeler_transform(input)
+    print(f"  - via the naive algorithm: '{bwt_naive}'")
+
+    bwt_optimized = Bwt.burrows_wheeler_transform(input)
+    print(f"  - via the optimized algorithm: '{bwt_optimized}'\n")
