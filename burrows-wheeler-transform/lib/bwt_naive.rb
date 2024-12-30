@@ -19,7 +19,7 @@ class BwtNaive
     input = str
 
     (1..str.length - 1).each do |i|
-      transform_arr[i] = transform(input)
+      transform_arr[i] = transform input
       input = transform_arr[i]
     end
 
